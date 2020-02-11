@@ -30,8 +30,9 @@ myLast (_:xs) = myLast xs
 -- λ> myButLast ['a'..'z']
 -- 'y'
 -- Solutions
-
-
+myButLast :: [a] -> a 
+myButLast = last . init -- last returns the last element of the list must be finite non empty.  init returns all the elements of the list except the last one. 
+                        -- therefore last . init will first look at all the elements and return them with the last element removed. and last will return the last element of the new list -1 size
 -- Problem 3
 -- (*) Find the K'th element of a list. The first element in the list is number 1.
 
@@ -46,6 +47,14 @@ myLast (_:xs) = myLast xs
 -- λ> elementAt "haskell" 5
 -- 'e'
 -- Solutions
+elementAt :: [a]->Int -> a -- this is because with the list we will use a number to look for and that be the int and then return an a value
+elementAt list i = list !! (i-1) -- Explanation below.
+-- !!
+-- Returns the element of a list located at the specified index. Note that an 'index' starts counting from zero.
+-- Indexing lists
+-- These functions treat a list xs as a indexed collection, with indices ranging from 0 to length xs - 1.
+-- (!!) :: [a] -> Int -> a
+-- List index (subscript) operator, starting from 0. It is an instance of the more general genericIndex, which takes an index of any integral type.
 
 
 -- Problem 4
@@ -58,7 +67,9 @@ myLast (_:xs) = myLast xs
 -- λ> myLength "Hello, world!"
 -- 13
 -- Solutions
-
+myLength :: [a]-> Int -- this is important because we are giving the integer list a return integer just like the prior examples
+myLength [] = 0 -- if the list is empty then nothing is in it therefore is 0
+myLength (_:xs) = 1 + myLength xs    -- to understand this piece of code
 
 -- Problem 5
 -- (*) Reverse a list.
@@ -70,7 +81,9 @@ myLast (_:xs) = myLast xs
 -- λ> myReverse [1,2,3,4]
 -- [4,3,2,1]
 -- Solutions
-
+myReverse :: [a]-> [a]
+myReverse [] = [] -- empty is empty
+myReverse (x:xs)= myReverse xs ++ [x] -- the naive solution is that we will look at the list and pull from the list into X from the back to the front
 
 -- Problem 6
 -- (*) Find out whether a list is a palindrome. A palindrome can be read forward or backward; e.g. (x a m a x).
@@ -84,7 +97,10 @@ myLast (_:xs) = myLast xs
 -- λ> isPalindrome [1,2,4,8,16,8,4,2,1]
 -- True
 -- Solutions
-
+isPalindrome :: (Eq a) => [a] -> Bool
+isPalindrome [_] =True
+isPalindrome [] = True
+isPalindrome x = x == reverse x
 
 -- Problem 7
 -- (**) Flatten a nested list structure.
