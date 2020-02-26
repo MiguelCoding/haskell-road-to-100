@@ -115,15 +115,18 @@ isPalindrome x = x == reverse x
 
 -- We have to define a new data type, because lists in Haskell are homogeneous.
 
---  data NestedList a = Elem a | List [NestedList a]
+data NestedList a = Elem a | List [NestedList a]
 -- λ> flatten (Elem 5)
 -- [5]
 -- λ> flatten (List [Elem 1, List [Elem 2, List [Elem 3, Elem 4], Elem 5]])
 -- [1,2,3,4,5]
 -- λ> flatten (List [])
 -- []
-
 -- Solutions
+flatten :: NestedList a -> [a]
+flatten (Elem a)  = [a]
+flatten (List (x:xs))= flatten x ++ flatten (List xs)
+flatten (List []) = []
 
 -- Problem 8
 -- (**) Eliminate consecutive duplicates of list elements.
@@ -139,7 +142,11 @@ isPalindrome x = x == reverse x
 -- λ> compress "aaaabccaadeeee"
 -- "abcade"
 -- Solutions
-
+compress:: Eq a => [a] -> [a]
+compress (x:ys@(y:_))  
+        | x==y = compress ys
+        |otherwise = x: compress ys
+compress ys=ys 
 -- Problem 9
 -- (**) Pack consecutive duplicates of list elements into sublists. If a list contains repeated elements they should be placed in separate sublists.
 
@@ -166,3 +173,4 @@ isPalindrome x = x == reverse x
 -- λ> encode "aaaabccaadeeee"
 -- [(4,'a'),(1,'b'),(2,'c'),(2,'a'),(1,'d'),(4,'e')]
 -- Solutions
+
